@@ -1,4 +1,4 @@
-package dev.viamarinha.validators;
+package dev.viamarinha.validation;
 
 public interface Validator {
 

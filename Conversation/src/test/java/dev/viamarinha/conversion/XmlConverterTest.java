@@ -1,8 +1,7 @@
-package dev.viamarinha.xmltojson;
+package dev.viamarinha.conversion;
 
 
-import dev.viamarinha.Converter;
-import dev.viamarinha.validators.ValidationConverterException;
+import dev.viamarinha.validation.ValidationConverterException;
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

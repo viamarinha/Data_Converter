@@ -1,6 +1,6 @@
 package io.swagger.api;
 
-import dev.viamarinha.validators.ValidationConverterException;
+import dev.viamarinha.validation.ValidationConverterException;
 import io.swagger.model.Input;
 
 import javax.ws.rs.core.Response;

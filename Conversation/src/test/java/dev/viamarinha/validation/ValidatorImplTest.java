@@ -1,4 +1,4 @@
-package dev.viamarinha.validators;
+package dev.viamarinha.validation;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,25 +9,26 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class ValidatorImplTest {
 
     private Validator validator;
+    private String nullValue;
+    private String emptyValue;
 
     @BeforeEach
     void setUp() {
         validator = new ValidatorImpl();
+        nullValue = null;
+        emptyValue = "";
     }
 
     //---------------Testing JsonToXmlValidation-----------------//
 
     @Test
-    void validateCustomerJsonInput_ShouldTrowJsonException_WhenIncorrectFormat() {
+    void validateCustomerJsonInput_shouldThrowJsonException_WhenIncorrectFormat() {
 
         String incorrectJson = "\n" +
                 "    \"fruit\": \"Apple\",\n" +
                 "    \"size\": \"Large\",\n" +
                 "    \"color\": \"Red\"\n" +
                 "}";
-        Assertions.assertThrows(ValidationConverterException.class, () -> {
-            validator.jsonValidator(incorrectJson);
-        });
 
         ValidationConverterException validationConverterException = Assertions.assertThrows(ValidationConverterException.class, () -> {
             validator.jsonValidator(incorrectJson);
@@ -38,12 +39,7 @@ class ValidatorImplTest {
     }
 
     @Test
-    void validateCustomerJsonInput_ShouldTrowValidatingException_WhenNullCustomerInput() {
-
-        String nullValue = null;
-        Assertions.assertThrows(ValidationConverterException.class, () -> {
-            validator.jsonValidator(nullValue);
-        });
+    void validateCustomerJsonInput_shouldThrowValidatingException_WhenNullCustomerInput() {
 
         ValidationConverterException validationConverterException = Assertions.assertThrows(ValidationConverterException.class, () -> {
             validator.jsonValidator(nullValue);
@@ -51,16 +47,10 @@ class ValidatorImplTest {
         String actual = validationConverterException.getMessage();
         String expected = "Data is NULL";
         assertEquals(expected, actual);
-
     }
 
     @Test
-    void validateCustomerJsonInput_ShouldTrowValidatingException_WhenCustomerInputEmpty() {
-
-        String emptyValue = "";
-        Assertions.assertThrows(ValidationConverterException.class, () -> {
-            validator.jsonValidator(emptyValue);
-        });
+    void validateCustomerJsonInput_shouldThrowValidatingException_WhenCustomerInputEmpty() {
 
         ValidationConverterException validationConverterException = Assertions.assertThrows(ValidationConverterException.class, () -> {
             validator.jsonValidator(emptyValue);
@@ -68,13 +58,12 @@ class ValidatorImplTest {
         String actual = validationConverterException.getMessage();
         String expected = "Data is empty";
         assertEquals(expected, actual);
-
     }
 
     //----------------Testing XmlToJsonValidation--------------------//
 
     @Test
-    void validateCustomerXmlInput_ShouldTrowException_WhenIncorrectFormat() {
+    void validateCustomerXmlInput_shouldThrowException_WhenIncorrectFormat() {
 
         String incorrectXml = "<note>\n" +
                 "       <toTove</to>\n" +
@@ -83,9 +72,6 @@ class ValidatorImplTest {
                 "       <body>Don't forget me this weekend!</body>\n" +
                 "   </note>";
 
-        Assertions.assertThrows(ValidationConverterException.class, () -> {
-            validator.xmlValidator(incorrectXml);
-        });
         ValidationConverterException validationConverterException = Assertions.assertThrows(ValidationConverterException.class, () -> {
             validator.xmlValidator(incorrectXml);
         });
@@ -95,12 +81,7 @@ class ValidatorImplTest {
     }
 
     @Test
-    void validateCustomerXmlInput_ShouldTrowValidatingException_WhenNullCustomerInput() {
-
-        String nullValue = null;
-        Assertions.assertThrows(ValidationConverterException.class, () -> {
-            validator.xmlValidator(nullValue);
-        });
+    void validateCustomerXmlInput_shouldThrowValidatingException_WhenNullCustomerInput() {
 
         ValidationConverterException validationConverterException = Assertions.assertThrows(ValidationConverterException.class, () -> {
             validator.xmlValidator(nullValue);
@@ -108,16 +89,10 @@ class ValidatorImplTest {
         String actual = validationConverterException.getMessage();
         String expected = "Data is NULL";
         assertEquals(expected, actual);
-
     }
 
     @Test
-    void validateCustomerXmlInput_ShouldTrowValidatingException_WhenCustomerInputEmpty() {
-
-        String emptyValue = "";
-        Assertions.assertThrows(ValidationConverterException.class, () -> {
-            validator.xmlValidator(emptyValue);
-        });
+    void validateCustomerXmlInput_shouldThrowValidatingException_WhenCustomerInputEmpty() {
 
         ValidationConverterException validationConverterException = Assertions.assertThrows(ValidationConverterException.class, () -> {
             validator.xmlValidator(emptyValue);
@@ -125,7 +100,6 @@ class ValidatorImplTest {
         String actual = validationConverterException.getMessage();
         String expected = "Data is empty";
         assertEquals(expected, actual);
-
     }
 
 

@@ -1,6 +1,6 @@
-package dev.viamarinha;
+package dev.viamarinha.conversion;
 
-import dev.viamarinha.validators.ValidationConverterException;
+import dev.viamarinha.validation.ValidationConverterException;
 import org.json.JSONException;
 
 public interface Converter {

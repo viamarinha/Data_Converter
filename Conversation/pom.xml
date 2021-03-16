@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>dev.viamarinha</groupId>
-    <artifactId>xmltojson</artifactId>
+    <artifactId>converter</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <parent>
@@ -33,11 +33,6 @@
             <artifactId>json</artifactId>
             <version>20180813</version>
         </dependency>
-        <dependency>
-            <groupId>com.vaadin.external.google</groupId>
-            <artifactId>android-json</artifactId>
-            <version>0.0.20131108.vaadin1</version>
-        </dependency>
         <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -49,6 +44,12 @@
             <groupId>com.github.javadev</groupId>
             <artifactId>underscore</artifactId>
             <version>1.64</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/log4j/log4j -->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.12</version>
         </dependency>
     </dependencies>
 

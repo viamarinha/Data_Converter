@@ -1,11 +1,11 @@
 package io.swagger.api.impl;
 
-import dev.viamarinha.Converter;
-import dev.viamarinha.jsontoxml.JsonConverter;
-import dev.viamarinha.validators.ValidationConverterException;
-import dev.viamarinha.validators.Validator;
-import dev.viamarinha.validators.ValidatorImpl;
-import dev.viamarinha.xmltojson.XmlConverter;
+import dev.viamarinha.conversion.Converter;
+import dev.viamarinha.conversion.JsonConverter;
+import dev.viamarinha.validation.ValidationConverterException;
+import dev.viamarinha.validation.Validator;
+import dev.viamarinha.validation.ValidatorImpl;
+import dev.viamarinha.conversion.XmlConverter;
 import io.swagger.api.*;
 
 import io.swagger.model.BadConversationResult;
@@ -28,36 +28,50 @@ public class ConvertApiServiceImpl extends ConvertApiService {
     @Override
     public Response convertPost(Input body, SecurityContext securityContext) throws NotFoundException, ValidationConverterException {
 
-        Validator validator = new ValidatorImpl();
+        logger.debug("Customer data to convert : " + body);
         Converter converter = null;
 
         try {
-            if (Type.XML.equals(body.getType())) {
-                validator.xmlValidator(body.getCustomerData());
-                converter = new XmlConverter();
-
-
-            } else if (Type.JSON.equals(body.getType())) {
-                validator.jsonValidator(body.getCustomerData());
-                converter = new JsonConverter();
-
-            }
+            converter = getConverter(body, converter);
         } catch (ValidationConverterException ex) {
-            {
-                logger.error("Error while validate data to convert" + ex.getMessage());
-                BadConversationResult response = new BadConversationResult();
-                response.validation(false);
-                response.setValidationMessage(ex.getMessage());
-                return Response.status(Response.Status.BAD_REQUEST).entity(response).build();
-            }
-        }
 
+            return getFailedResponse(ex);
+        }
         return getResponse(body, converter);
     }
 
+    private Converter getConverter(Input body, Converter converter) throws ValidationConverterException {
+
+        Validator validator = new ValidatorImpl();
+        if (Type.XML.equals(body.getType())) {
+            validator.xmlValidator(body.getCustomerData());
+            converter = new XmlConverter();
+            logger.trace("Validation pased. Returned XmlConverter.");
+
+        } else if (Type.JSON.equals(body.getType())) {
+            validator.jsonValidator(body.getCustomerData());
+            converter = new JsonConverter();
+            logger.trace("Validation pased. Returned JsonConverter.");
+        }
+        return converter;
+    }
+
+    private Response getFailedResponse(ValidationConverterException ex) {
+
+        logger.error(" Error while validate data to convert " + ex.getMessage(), ex);
+        BadConversationResult response = new BadConversationResult();
+        response.validation(false);
+        response.setValidationMessage(ex.getMessage());
+        Response finalResponse = Response.status(Response.Status.BAD_REQUEST).entity(response).build();
+        logger.debug(" FinalFailedResponse " + finalResponse);
+        return finalResponse;
+    }
+
     private Response getResponse(Input body, Converter converter) throws ValidationConverterException {
+
         ValidResponse response = new ValidResponse();
         response.setData(converter.convert(body.getCustomerData()));
+        logger.info(" Valid response to client " + response);
         return Response.ok().entity(response).build();
     }
 }
