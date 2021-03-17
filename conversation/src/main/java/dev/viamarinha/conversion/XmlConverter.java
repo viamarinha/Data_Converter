@@ -20,6 +20,7 @@ public class XmlConverter implements Converter {
         Validator validator = new ValidatorImpl();
         validator.xmlValidator(convertInput);
         String jsonConverted = XML.toJSONObject(convertInput).toString(PRETTY_PRINT_INDENT_FACTOR);
+        if(logger.isDebugEnabled())
         logger.debug("Json converted from Xml : " + jsonConverted);
         return jsonConverted;
     }

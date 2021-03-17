@@ -58,7 +58,7 @@ public class ConvertApiServiceImpl extends ConvertApiService {
 
     private Response getFailedResponse(ValidationConverterException ex) {
 
-        logger.error(" Error while validate data to convert " + ex.getMessage(), ex);
+        logger.error(ex.getMessage(), ex);
         BadConversationResult response = new BadConversationResult();
         response.validation(false);
         response.setValidationMessage(ex.getMessage());
@@ -71,7 +71,7 @@ public class ConvertApiServiceImpl extends ConvertApiService {
 
         ValidResponse response = new ValidResponse();
         response.setData(converter.convert(body.getCustomerData()));
-        logger.info(" Valid response to client " + response);
+        logger.debug(" Valid response to client " + response);
         return Response.ok().entity(response).build();
     }
 }
