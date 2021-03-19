@@ -1,6 +1,7 @@
 package dev.viamarinha.validation;
 
-public class ValidationConverterException extends Exception{
+public class ValidationConverterException extends Exception {
+
     public ValidationConverterException() {
     }
 

@@ -19,6 +19,15 @@ class ValidatorImplTest {
         emptyValue = "";
     }
 
+    @Test
+    void validateCustomerType_shouldThrowValidatingException_whenNullCustomerTypeOrEmpty() throws ValidationConverterException {
+        ValidationConverterException validationConverterException = Assertions.assertThrows(ValidationConverterException.class,
+                () -> validator.typeValidator(null));
+        String actual = validationConverterException.getMessage();
+        String expected = " Type is incorrect format or Null ";
+        assertEquals(expected, actual);
+    }
+
     //---------------Testing JsonToXmlValidation-----------------//
 
     @Test

@@ -23,26 +23,32 @@ import javax.ws.rs.core.SecurityContext;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaJerseyServerCodegen", date = "2021-03-09T02:20:28.751Z[GMT]")
 public class ConvertApiServiceImpl extends ConvertApiService {
 
+    Converter converter = null;
+    Validator validator = new ValidatorImpl();
     final static Logger logger = Logger.getLogger(ConvertApiServiceImpl.class);
 
     @Override
     public Response convertPost(Input body, SecurityContext securityContext) throws NotFoundException, ValidationConverterException {
 
         logger.debug("Customer data to convert : " + body);
-        Converter converter = null;
-
         try {
-            converter = getConverter(body, converter);
+            validateCustomerType(body, validator);
+            converter = getConverter(body);
         } catch (ValidationConverterException ex) {
 
             return getFailedResponse(ex);
         }
-        return getResponse(body, converter);
+        return getResponse(body);
     }
 
-    private Converter getConverter(Input body, Converter converter) throws ValidationConverterException {
+    private void validateCustomerType(Input body, Validator validator) throws ValidationConverterException {
 
-        Validator validator = new ValidatorImpl();
+        logger.debug(" TypeOfdata to handle : " + body.getType());
+        validator.typeValidator(body.getType());
+    }
+
+    private Converter getConverter(Input body) throws ValidationConverterException {
+
         if (Type.XML.equals(body.getType())) {
             validator.xmlValidator(body.getCustomerData());
             converter = new XmlConverter();
@@ -67,7 +73,7 @@ public class ConvertApiServiceImpl extends ConvertApiService {
         return finalResponse;
     }
 
-    private Response getResponse(Input body, Converter converter) throws ValidationConverterException {
+    private Response getResponse(Input body) throws ValidationConverterException {
 
         ValidResponse response = new ValidResponse();
         response.setData(converter.convert(body.getCustomerData()));

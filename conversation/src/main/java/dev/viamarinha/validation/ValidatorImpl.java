@@ -11,8 +11,19 @@ public class ValidatorImpl implements Validator {
     private JSONObject jsonObject;
     private final Logger logger = Logger.getLogger(ValidatorImpl.class);
 
+
+    @Override
+    public void typeValidator(Enum type) throws ValidationConverterException {
+
+        logger.debug(" Incorrect type " + type);
+        if (type == null) {
+            throw new ValidationConverterException(" Type is incorrect format or Null ");
+        }
+    }
+
     @Override
     public void jsonValidator(String inputJson) throws ValidationConverterException {
+
         logger.debug("Customer Data " + inputJson);
         if (inputJson == null) {
             logger.debug("Customer Data is null");
@@ -31,6 +42,7 @@ public class ValidatorImpl implements Validator {
 
     @Override
     public void xmlValidator(String inputXml) throws ValidationConverterException {
+
         logger.debug("Customer Data " + inputXml);
         if (inputXml == null) {
             logger.debug("Customer Data is null");
