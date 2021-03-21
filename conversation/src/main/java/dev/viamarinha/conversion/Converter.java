@@ -1,7 +1,7 @@
 package dev.viamarinha.conversion;
 
 import dev.viamarinha.validation.ValidationConverterException;
-import org.json.JSONException;
+import org.json.*;
 
 public interface Converter {
 
